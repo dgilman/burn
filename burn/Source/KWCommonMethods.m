@@ -12,9 +12,6 @@
 #if MAC_OS_X_VERSION_MAX_ALLOWED < 1050
 #import <QuickTime/QuickTime.h>
 #endif
-#ifdef USE_QTKIT
-#import <QTKit/QTKit.h>
-#endif
 
 @interface NSFileManager (MyUndocumentedMethodsForNSTheClass)
 
@@ -52,19 +49,6 @@
 
 + (BOOL)isQuickTimeSevenInstalled
 {
-	#ifdef USE_QTKIT
-	if ([KWCommonMethods OSVersion] >= 0x1040)
-		return YES;
-		
-	#if MAC_OS_X_VERSION_MAX_ALLOWED < 1050
-	long version;
-	OSErr result;
-
-	result = Gestalt(gestaltQuickTime, &version);
-	return ((result == noErr) && (version >= 0x07000000));
-	#endif
-	#endif
-	
 	return NO;
 }
 
@@ -179,7 +163,7 @@
 			newPath = [path stringByDeletingPathExtension];
 			
 			i = i + 1;
-			newPath = [NSString stringWithFormat:@"%@ %i", newPath, i];
+			newPath = [NSString stringWithFormat:@"%@ %ld", newPath, i];
 		}
 
 		return [newPath stringByAppendingString:pathExtension];
@@ -804,7 +788,6 @@
 	NSData *imageData = [bitmap representationUsingType:NSPNGFileType properties:nil];
 	
 	BOOL succes;
-	NSString *details;
 	
 	NSError *writeError;
 	succes = [imageData writeToFile:path options:NSAtomicWrite error:&writeError];
@@ -1209,41 +1192,7 @@
 {
 	NSMutableArray *filetypes = [NSMutableArray array];
 
-	if ([KWCommonMethods isQuickTimeSevenInstalled])
-	{
-		#ifdef USE_QTKIT
-		[filetypes addObjectsFromArray:[QTMovie movieFileTypes:QTIncludeCommonTypes]];
-		#endif
-	}
-	else
-	{
-		#if MAC_OS_X_VERSION_MAX_ALLOWED < 1050
-		NSMutableArray *qtTypes = [NSMutableArray array];
-		ComponentDescription findCD = {0, 0, 0, 0, 0};
-		ComponentDescription infoCD = {0, 0, 0, 0, 0};
-		Component comp = NULL;
-		OSErr err = noErr;
-
-		findCD.componentType = MovieImportType;
-		findCD.componentFlags = 0;
-
-		while (comp = FindNextComponent(comp, &findCD)) 
-		{
-			err = GetComponentInfo(comp, &infoCD, nil, nil, nil);
-			if (err == noErr) 
-			{
-				if (infoCD.componentFlags & movieImportSubTypeIsFileExtension)
-					[qtTypes addObject:[[[NSString stringWithCString:(char *)&infoCD.componentSubType length:sizeof(OSType)] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] lowercaseString]];
-				else 
-					[qtTypes addObject:[NSString stringWithFormat:@"\'%@\'", [NSString stringWithCString:(char *)&infoCD.componentSubType length:sizeof(OSType)]]];
-			}
-		}
-	
-		[filetypes addObjectsFromArray:qtTypes];
-		#else
-		[filetypes addObjectsFromArray:[NSArray arrayWithObjects:@"mp2", @"'dvc!'", @"adts", @"mp3", @"ogg", @"m2p", @"scc", @"spx", @"'.WAV'", @"mp4", @"m1s", @"qhtm", @"'WAVE'", @"m2s", @"vro", @"mpa", @"m4p", @"qtz", @"gsm", @"'mxfd'", @"aiff", @"axv", @"m1v", @"wmv", @"gvi", @"'rtsp'", @"qt", @"'MooV'", @"aif", @"ogm", @"m2v", @"'Sd2f'", @"m3u", @"midi", @"'MPG3'", @"'sdp '", @"'GSM '", @"'qhtm'", @"'ac-3'", @"mpg", @"m4v", @"amc", @"'ASF_'", @"'MkvF'", @"mpeg", @"qtpf", @"'MP3 '", @"cel", @"'SwaT'", @"'ULAW'", @"'AVI_'", @"flac", @"3gp", @"'M1A '", @"'sdv '", @"dif", @"QT", @"dat", @"ogv", @"sdp", @"3gpp", @"mpm", @"'grip'", @"rtsp", @"mkv", @"'M2S '", @"'caff'", @"ogx", @"'cdda'", @"'GIFf'", @"MOV", @"'MPGv'", @"'MPG '", @"au", @"snd", @"fla", @"'M2V '", @"smf", @"qht", @"'AIFF'", @"'amc '", @"sdv", @"'PDF '", @"'fLaC'", @"wvx", @"'MPGa'", @"flc", @"MQV", @"'attr'", @"asf", @"mov", @"gif", @"dv", @"pls", @"smi", @"'MPG2'", @"'SMIL'", @"skin", @"mpv", @"amr", @"m15", @"cdda", @"'3gp2'", @"3gp2", @"axa", @"mqv", @"m1a", @"sml", @"wma", @"'AIFC'", @"wav", @"'FLI '", @"m2a", @"fli", @"vob", @"vp6", @"xfl", @"'OggS'", @"'MPGx'", @"wax", @"tta", @"ac3", @"avi", @"'mpg4'", @"m4a", @"'MPGV'", @"swa", @"'.SMI'", @"bwf", @"aac", @"anx", @"kar", @"m4b", @"'MPEG'", @"'MPGA'", @"vfw", @"dvd", @"'3gpp'", @"divx", @"m75", @"nuv", @"3g2", @"smil", @"'VfW '", @"'Mp3 '", @"'adts'", @"atr", @"oga", @"'embd'", @"'M1V '", @"mid", @"mka", @"'amr '", @"sd2", @"pdf", @"'Midi'", @"'CLCP'", @"asx", @"caf", @"flv", @"aifc", @"ulw", @"'PLAY'", @"'WMV '", nil]];
-		#endif
-	}
+    [filetypes addObjectsFromArray:[NSArray arrayWithObjects:@"mp2", @"'dvc!'", @"adts", @"mp3", @"ogg", @"m2p", @"scc", @"spx", @"'.WAV'", @"mp4", @"m1s", @"qhtm", @"'WAVE'", @"m2s", @"vro", @"mpa", @"m4p", @"qtz", @"gsm", @"'mxfd'", @"aiff", @"axv", @"m1v", @"wmv", @"gvi", @"'rtsp'", @"qt", @"'MooV'", @"aif", @"ogm", @"m2v", @"'Sd2f'", @"m3u", @"midi", @"'MPG3'", @"'sdp '", @"'GSM '", @"'qhtm'", @"'ac-3'", @"mpg", @"m4v", @"amc", @"'ASF_'", @"'MkvF'", @"mpeg", @"qtpf", @"'MP3 '", @"cel", @"'SwaT'", @"'ULAW'", @"'AVI_'", @"flac", @"3gp", @"'M1A '", @"'sdv '", @"dif", @"QT", @"dat", @"ogv", @"sdp", @"3gpp", @"mpm", @"'grip'", @"rtsp", @"mkv", @"'M2S '", @"'caff'", @"ogx", @"'cdda'", @"'GIFf'", @"MOV", @"'MPGv'", @"'MPG '", @"au", @"snd", @"fla", @"'M2V '", @"smf", @"qht", @"'AIFF'", @"'amc '", @"sdv", @"'PDF '", @"'fLaC'", @"wvx", @"'MPGa'", @"flc", @"MQV", @"'attr'", @"asf", @"mov", @"gif", @"dv", @"pls", @"smi", @"'MPG2'", @"'SMIL'", @"skin", @"mpv", @"amr", @"m15", @"cdda", @"'3gp2'", @"3gp2", @"axa", @"mqv", @"m1a", @"sml", @"wma", @"'AIFC'", @"wav", @"'FLI '", @"m2a", @"fli", @"vob", @"vp6", @"xfl", @"'OggS'", @"'MPGx'", @"wax", @"tta", @"ac3", @"avi", @"'mpg4'", @"m4a", @"'MPGV'", @"swa", @"'.SMI'", @"bwf", @"aac", @"anx", @"kar", @"m4b", @"'MPEG'", @"'MPGA'", @"vfw", @"dvd", @"'3gpp'", @"divx", @"m75", @"nuv", @"3g2", @"smil", @"'VfW '", @"'Mp3 '", @"'adts'", @"atr", @"oga", @"'embd'", @"'M1V '", @"mid", @"mka", @"'amr '", @"sd2", @"pdf", @"'Midi'", @"'CLCP'", @"asx", @"caf", @"flv", @"aifc", @"ulw", @"'PLAY'", @"'WMV '", nil]];
 
 	//Remove midi and playlist files since they doesn't work
 	if ([filetypes indexOfObject:@"'Midi'"] != NSNotFound)
@@ -1456,46 +1405,6 @@
 + (NSMutableArray *)quicktimeChaptersFromFile:(NSString *)path
 {
 	NSMutableArray *chapters = [NSMutableArray array];
-	
-	#ifdef USE_QTKIT
-	if ([KWCommonMethods isQuickTimeSevenInstalled] && [KWCommonMethods OSVersion] >= 0x1050)
-	{
-		if ([QTMovie canInitWithFile:path])
-		{
-			QTMovie *movie = [QTMovie movieWithFile:path error:nil];
-			NSArray *qtChapters = [movie chapters];
-			
-			if (qtChapters)
-			{
-				NSInteger i;
-				for (i = 0; i < [qtChapters count]; i ++)
-				{
-					NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-				
-					NSDictionary *qtChapter = [qtChapters objectAtIndex:i];
-					NSString *title = [qtChapter objectForKey:@"QTMovieChapterName"];
-					QTTime qtTime = [[qtChapter objectForKey:@"QTMovieChapterStartTime"] QTTimeValue];
-					CGFloat seconds = qtTime.timeValue / qtTime.timeScale;
-					CGFloat frames = ((qtTime.timeValue / qtTime.timeScale) - seconds) * (qtTime.timeScale / 1000) / 2;
-					CGFloat time = seconds + frames;
-				
-					NSMutableDictionary *rowData = [NSMutableDictionary dictionary];
-
-					[rowData setObject:[KWCommonMethods formatTime:time withFrames:NO] forKey:@"Time"];
-					[rowData setObject:title forKey:@"Title"];
-					[rowData setObject:[NSNumber numberWithCGFloat:time] forKey:@"RealTime"];
-					[rowData setObject:[[movie frameImageAtTime:qtTime] TIFFRepresentationUsingCompression:NSTIFFCompressionLZW factor:0] forKey:@"Image"];
-					
-					[chapters addObject:rowData];
-					
-					[pool release];
-					pool = nil;
-				}
-			}
-		}
-	}
-	#endif
-	
 	return chapters;
 }
 

@@ -411,17 +411,25 @@
 		if ([setHiddenExtension state] == NSOnState)
 		{
 			if ([inspectedItems count] == 1)
+            {
 				[mangledName setStringValue:[[currentItem mangledNameForFilesystem:fileSystem] stringByDeletingPathExtension]];
+            }
 		
 			flags = (flags | 0x0010);
 		}
 		else
 		{
 			if ([inspectedItems count] == 1)
+            {
 				if ([KWCommonMethods isDRFolderIsLocalized:(DRFolder *)currentItem])
+                {
 					[mangledName setStringValue:[[currentItem mangledNameForFilesystem:fileSystem] stringByDeletingPathExtension]];
-				else
+                }
+                else
+                {
 					[mangledName setStringValue:[currentItem mangledNameForFilesystem:fileSystem]];
+                }
+            }
 		
 			flags -= 0x0010;
 		}

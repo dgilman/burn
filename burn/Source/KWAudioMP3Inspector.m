@@ -210,7 +210,7 @@
 	else
 	{
 		[imageView setImage:nil];
-		NSString *countString = [NSString stringWithFormat:@"%ld of %ld",0,0];
+		NSString *countString = [NSString stringWithFormat:@"%i of %i",0,0];
 		[imageString setStringValue:countString];
 	}
 }

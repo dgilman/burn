@@ -145,7 +145,7 @@
 		xmlFile = [NSString stringWithFormat:@"%@/>", xmlFile];
 		
 		if (x < [fileArray count] - 1)
-			xmlFile = [NSString stringWithFormat:@"%@\n<post>jump title %i;</post>\n</pgc>", xmlFile, x + 2];
+			xmlFile = [NSString stringWithFormat:@"%@\n<post>jump title %ld;</post>\n</pgc>", xmlFile, x + 2];
 	}
 	
 	NSString *loopString;

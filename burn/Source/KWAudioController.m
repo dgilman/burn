@@ -155,33 +155,19 @@
 	//Needs to be set in Tiger (Took me a while to figure out since it worked since Jaguar without target)
 	[tableView setTarget:self];
 	
-	//When a movie ends we'll play the next song if it exists
-	if ([KWCommonMethods isQuickTimeSevenInstalled])
-	{
-		#ifdef USE_QTKIT
-		[defaultCenter addObserver:self selector:@selector(movieEnded:) name:QTMovieDidEndNotification object:nil];
-		#endif
-	}
-	else
-	{
-		#if MAC_OS_X_VERSION_MAX_ALLOWED < 1050
-		//EnterMovies for QuickTime 6 functions later to be used
-		EnterMovies();
-		#endif
 	
-		//Make it look like we we're never able to play songs :-)
-		[totalText setFrameOrigin:NSMakePoint([totalText frame].origin.x+63,[totalText frame].origin.y)]; 
-	
-		[previousButton setHidden:YES];
-		[playButton setHidden:YES];
-		[nextButton setHidden:YES];
-		[stopButton setHidden:YES];
-	
-		[previousButton setEnabled:YES];
-		[playButton setEnabled:YES];
-		[nextButton setEnabled:YES];
-		[stopButton setEnabled:YES];
-	}
+    //Make it look like we we're never able to play songs :-)
+    [totalText setFrameOrigin:NSMakePoint([totalText frame].origin.x+63,[totalText frame].origin.y)];
+
+    [previousButton setHidden:YES];
+    [playButton setHidden:YES];
+    [nextButton setHidden:YES];
+    [stopButton setHidden:YES];
+
+    [previousButton setEnabled:YES];
+    [playButton setEnabled:YES];
+    [nextButton setEnabled:YES];
+    [stopButton setEnabled:YES];
 	
 	//Set save popup title
 	[tableViewPopup selectItemAtIndex:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultAudioType"] integerValue]];
@@ -856,277 +842,47 @@
 
 - (IBAction)play:(id)sender
 {
-	#ifdef USE_QTKIT
-	//Check if there are some rows, we really need those
-	if ([tableData count] > 0)
-	{
-		//If image is pause.png the movie has already started so we should pause it, but if the message is
-		//send by the tableview the user wants a other song
-		if ([playButton image] == [NSImage imageNamed:@"Play"] | sender == tableView)
-		{
-			//If the user click pause before we should resume, else we should start the selected, 
-			//double-clicked or first song
-			if (pause == NO | sender == tableView)
-			{
-				//If there still is a movie (when a user double-clicked a row) stop it and make movie nil
-				if (movie != nil)
-				{
-					[movie stop];
-					[movie release];
-					movie = nil;
-				}
-				
-				NSInteger selrow = [tableView selectedRow];
-				
-				//Check if a row is selected if not play first song 
-				if (selrow > -1)
-					playingSong = selrow;
-				else
-					playingSong = 0;
-					
-				movie = [[QTMovie alloc] initWithFile:[[tableData objectAtIndex:playingSong] objectForKey:@"Path"] error:nil];
-			
-				[movie play];
-					
-				if (display == 0)
-					[self setDisplay:self];
-					
-				displayTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(updateDisplay:) userInfo:nil repeats: YES];
-				[playButton setImage:[NSImage imageNamed:@"Pause"]];
-			}
-			else
-			//Resume
-			{
-				[movie play];
-				displayTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(updateDisplay:) userInfo:nil repeats: YES];
-				[playButton setImage:[NSImage imageNamed:@"Pause"]];
-			}
-		}
-		else
-		//Pause
-		{
-			[movie stop];
-			[displayTimer invalidate];
-			pause = YES;
-			[playButton setImage:[NSImage imageNamed:@"Play"]];
-		}
-	}
-	#endif
+    // qtkit support removed
 }
 
 - (IBAction)stop:(id)sender
 {
-	#ifdef USE_QTKIT
-	//Check if we have some rows, so we don't try to stop it for the second time
-	if ([tableData count] > 0)
-	{
-		//Check if there is a movie, so we have something to stop
-		if (movie != nil)
-		{
-			[movie stop];
-			
-			if ([playButton image] == [NSImage imageNamed:@"Pause"])
-				[displayTimer invalidate];
-				
-			display = 2;
-			pause = NO;
-			[playButton setImage:[NSImage imageNamed:@"Play"]];
-			playingSong = 0;
-			[movie release];
-			movie = nil;
-			[self setDisplay:self];
-		}
-	}
-	#endif
+    // qtkit support removed
 }
 
 - (IBAction)back:(id)sender
 {
-	#ifdef USE_QTKIT
-	if (movie != nil)
-	{
-		//Only fire if the player is already playing
-		if ([playButton image] == [NSImage imageNamed:@"Pause"])
-		{
-			//If we're not at number 1 go back
-			if (playingSong - 1 > - 1)
-			{
-				//Stop previous movie
-				if (movie != nil)
-				{
-					[movie stop];
-					[movie release];
-					movie = nil;
-				}
-				
-				movie = [[QTMovie alloc] initWithFile:[[tableData objectAtIndex:playingSong - 1] objectForKey:@"Path"] error:nil];
-				[movie play];
-				playingSong = playingSong - 1;
-			}
-			else if (playingSong == 0)
-			{
-				[movie gotoBeginning];
-			}
-		}
-		else
-		{
-			if (playingSong - 1 > - 1)
-			{
-				//Stop previous movie
-				if (movie != nil)
-				{
-					[movie stop];
-					[movie release];
-					movie = nil;
-				}
-			
-				movie = [[QTMovie alloc] initWithFile:[[tableData objectAtIndex:playingSong- 1] objectForKey:@"Path"] error:nil];
-				playingSong = playingSong - 1;
-				[self setDisplay:self];
-			}
-			else
-			{
-				[movie gotoBeginning];
-			}
-		}
-	}
-	#endif
+    // qtkit support removed
 }
 
 - (IBAction)forward:(id)sender
 {
-	#ifdef USE_QTKIT
-	if (movie != nil)
-	{
-		//Only fire if the player is already playing
-		if ([playButton image] == [NSImage imageNamed:@"Pause"])
-		{
-			//If the're more tracks go to next
-			if (playingSong + 1 < [tableData count])
-			{
-				//Stop previous movie
-				if (movie != nil)
-				{
-					[movie stop];
-					[movie release];
-					movie = nil;
-				}
-				
-				movie = [[QTMovie alloc] initWithFile:[[tableData objectAtIndex:playingSong + 1] objectForKey:@"Path"] error:nil];
-				[movie play];
-				playingSong = playingSong + 1;
-			}
-		}
-		else
-		{
-			if (playingSong + 1 < [tableData count])
-			{
-				//Stop previous movie
-				if (movie != nil)
-				{
-					[movie stop];
-					[movie release];
-					movie = nil;
-				}
-			
-				movie = [[QTMovie alloc] initWithFile:[[tableData objectAtIndex:playingSong + 1] objectForKey:@"Path"] error:nil];
-				playingSong = playingSong + 1;
-				[self setDisplay:self];
-			}
-		}
-	}
-	#endif
+    // qtkit support removed
 }
 
 //When the movie has stopped there will be a notification, we go to the next song if there is any
 - (void)movieEnded:(NSNotification *)notification
 {
-	#ifdef USE_QTKIT
-	if (playingSong + 1 < [tableData count])
-	{
-		//Stop previous movie
-		if (movie != nil)
-		{
-			[movie stop];
-			[movie release];
-			movie = nil;
-		}
-	
-		movie = [[QTMovie alloc] initWithFile:[[tableData objectAtIndex:playingSong+1] objectForKey:@"Path"] error:nil];
-		[movie play];
-		playingSong = playingSong + 1;
-	}
-	else
-	{
-		[self stop:self];
-	}
-	#endif
+    // qtkit support removed
 }
 
 //When the user clicks on the time display change the mode
 - (IBAction)setDisplay:(id)sender
 {
-	#ifdef USE_QTKIT
-	if ([KWCommonMethods isQuickTimeSevenInstalled])
-	{
-		if (movie != nil)
-		{
-			if (display < 2)
-				display = display + 1;
-			else
-				display = 0;
-		
-			[self setDisplayText];
-		}
-		else
-		{
-			[self setTotal];
-		}
-	}
-	else
-	{
-		[self setTotal];
-	}
-	#endif
+    // qtkit support removed
 }
 
 //Keep the seconds running on the display
 - (void)updateDisplay:(NSTimer *)theTimer
 {
-	#ifdef USE_QTKIT
-	if (movie != nil)
-	#endif
-		[self setDisplayText];
+    [self setDisplayText];
 }
 
 - (void)setDisplayText
 {
 	if (display == 1 | display == 2)
 	{
-		#ifdef USE_QTKIT
-		NSString *displayText;
-		NSString *timeString;
-		
-		CGFloat time = (CGFloat)[movie currentTime].timeValue / (CGFloat)[movie currentTime].timeScale;
-				
-		if (display == 2)
-			time = (CGFloat)[movie duration].timeValue / (CGFloat)[movie duration].timeScale - time;
-			
-		timeString = [KWCommonMethods formatTime:time withFrames:NO];
-				
-		NSInteger selrow = [tableViewPopup indexOfSelectedItem];
-		if (selrow == 1 | selrow == 2)
-		{
-			NSString *displayName = [[NSFileManager defaultManager] displayNameAtPath:[[tableData objectAtIndex:playingSong] objectForKey:@"Path"]];
-			displayText = [NSString stringWithFormat:@"%@ %@", displayName, timeString];
-		}
-		else
-		{
-			displayText = [NSString stringWithFormat:NSLocalizedString(@"Track %ld %@", nil), (long) playingSong + 1, timeString];
-		}
-				
-		[totalText setStringValue:displayText];
-		#endif
+        // qtkit support removed
 	}
 	else if (display == 2)
 	{
@@ -1144,9 +900,7 @@
 
 - (BOOL)tableView:(NSTableView*)tv acceptDrop:(id <NSDraggingInfo>)info row:(NSInteger)row dropOperation:(NSTableViewDropOperation)op
 {
-	#if MAC_OS_X_VERSION_MAX_ALLOWED >= 1050
 	if (cdtext)
-	#elif MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
 	if (cdtext && [KWCommonMethods OSVersion] >= 0x1040)
 	{
 		NSInteger selrow = [tableViewPopup indexOfSelectedItem];
@@ -1198,8 +952,6 @@
 			}
 		}
 	}
-	#endif
-	
 	return [super tableView:tv acceptDrop:info row:row dropOperation:op];
 }
 
@@ -1250,32 +1002,7 @@
 //Get movie duration using NSMovie so it works in Panther too
 - (NSInteger)getMovieDuration:(NSString *)path
 {
-	#if MAC_OS_X_VERSION_MAX_ALLOWED >= 1050
 	return [KWConverter totalTimeInSeconds:path];
-	#else
-	NSInteger duration;
-
-	if ([KWCommonMethods isQuickTimeSevenInstalled])
-	{
-		#ifdef USE_QTKIT
-		QTMovie *qtMovie = [QTMovie movieWithFile:path error:nil];
-		QTTime movieDuration = [qtMovie duration];
-		duration = (NSInteger)movieDuration.timeValue / (NSInteger)movieDuration.timeScale;
-		#endif
-	}
-	else
-	{
-		NSMovie *theMovie = [[NSMovie alloc] initWithURL:[NSURL fileURLWithPath:path] byReference:NO];
-
-		if (theMovie)
-		{
-			duration = GetMovieDuration([theMovie QTMovie]) / GetMovieTimeScale([theMovie QTMovie]);
-			[theMovie release];
-		}
-	}
-
-	return duration;
-	#endif
 }
 
 //Check if the disc can be combined
@@ -1324,9 +1051,7 @@
 	NSString *cueFile = [NSString stringWithFormat:@"FILE \"%@\" BINARY", binFile];
 	NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
 	
-	#if MAC_OS_X_VERSION_MAX_ALLOWED >= 1050
 	if ([standardDefaults objectForKey:@"KWUseCDText"])
-	#elif MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
 	if ([KWCommonMethods OSVersion] >= 0x1040 && [standardDefaults objectForKey:@"KWUseCDText"])
 	{
 		NSArray *keys = [cueMappings allKeys];
@@ -1357,14 +1082,13 @@
 		if (mcn)
 			cueFile = [NSString stringWithFormat:@"%@\nUPC_EAN %@", cueFile, mcn];
 	}
-	#endif
 		
 	NSInteger x;
 	NSInteger size = 0;
 	for (x=0;x<[tracks count];x++)
 	{
 		NSInteger trackNumber = x + 1;
-		cueFile = [NSString stringWithFormat:@"%@\n  TRACK %2i AUDIO", cueFile, trackNumber];
+		cueFile = [NSString stringWithFormat:@"%@\n  TRACK %2ld AUDIO", cueFile, trackNumber];
 		
 		#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
 		if ([KWCommonMethods OSVersion] >= 0x1040 && [standardDefaults objectForKey:@"KWUseCDText"])
