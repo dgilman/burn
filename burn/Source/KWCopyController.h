@@ -38,9 +38,7 @@
 	KWDiscScanner *scanner;
 	BOOL awake;
 	NSMutableArray *temporaryFiles;
-	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
 	NSArray *cdTextBlocks;
-	#endif
 }
 
 //Main actions
@@ -77,8 +75,6 @@
 - (NSNumber *)getLayerBreakForDvdFileAtPath:(NSString *)path;
 - (NSDictionary *)isoInfo;
 
-#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
 - (NSArray *)getCDTextBlocks;
-#endif
 
 @end

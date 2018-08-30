@@ -186,7 +186,6 @@
 		[burn setProperties:properties];
 		[[DRNotificationCenter currentRunLoopCenter] addObserver:self selector:@selector(burnNotification:) name:DRBurnStatusChangedNotification object:burn];
 		
-		#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
 		if ([KWCommonMethods OSVersion] >= 0x1040)
 		{
 			id layout = [DRBurn layoutForImageFile:path];
@@ -197,7 +196,6 @@
 				[defaultCenter postNotificationName:@"KWBurnFinished" object:self userInfo:[NSDictionary dictionaryWithObject:@"KWFailure" forKey:@"ReturnCode"]];
 		}
 		else
-		#endif
 			if ([[path pathExtension] isEqualTo:@"cue"])
 				[burn writeLayout:[[KWTrackProducer alloc] getTracksOfCueFile:path]];
 			else

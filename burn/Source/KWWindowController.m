@@ -313,38 +313,27 @@
 
 - (void)setupToolbar
 {
-	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
-	if ([KWCommonMethods OSVersion] >= 0x1040)
-	{
-		//First setup accessibility support since it can't be done from interface builder
-		id segmentElement = NSAccessibilityUnignoredDescendant(newTabView);
-		NSArray *segments = [segmentElement accessibilityAttributeValue:NSAccessibilityChildrenAttribute];
+    //First setup accessibility support since it can't be done from interface builder
+    id segmentElement = NSAccessibilityUnignoredDescendant(newTabView);
+    NSArray *segments = [segmentElement accessibilityAttributeValue:NSAccessibilityChildrenAttribute];
+
+
+    id segment;
+    NSArray *descriptions = [NSArray arrayWithObjects:NSLocalizedString(@"Select to create a data disc", nil),NSLocalizedString(@"Select to create a audio disc", nil),NSLocalizedString(@"Select to create a video disc", nil),NSLocalizedString(@"Select to copy a disc or disk image", nil),nil];
+    NSEnumerator *e = [segments objectEnumerator];
     
-    
-		id segment;
-		NSArray *descriptions = [NSArray arrayWithObjects:NSLocalizedString(@"Select to create a data disc", nil),NSLocalizedString(@"Select to create a audio disc", nil),NSLocalizedString(@"Select to create a video disc", nil),NSLocalizedString(@"Select to copy a disc or disk image", nil),nil];
-		NSEnumerator *e = [segments objectEnumerator];
-			
-		NSInteger i = 0;
-		while ((segment = [e nextObject])) 
-		{
-			[segment accessibilitySetOverrideValue:[descriptions objectAtIndex:i] forAttribute:NSAccessibilityHelpAttribute];
-			[segment accessibilitySetOverrideValue:[descriptions objectAtIndex:i] forAttribute:NSAccessibilityHelpAttribute];
-			i = i + 1;
-		}
-	}
-	#endif
+    NSInteger i = 0;
+    while ((segment = [e nextObject]))
+    {
+        [segment accessibilitySetOverrideValue:[descriptions objectAtIndex:i] forAttribute:NSAccessibilityHelpAttribute];
+        [segment accessibilitySetOverrideValue:[descriptions objectAtIndex:i] forAttribute:NSAccessibilityHelpAttribute];
+        i = i + 1;
+    }
 
 	mainItem = [[[NSToolbarItem alloc] initWithItemIdentifier:@"Main"] autorelease];
     [mainItem setView:newTabView];
 	[mainItem setMinSize:NSMakeSize([newTabView frame].size.width,28)];
-	
-	//Some things don't work in Panther, so doing a trick to hide the toolbarbutton
-	#if MAC_OS_X_VERSION_MAX_ALLOWED < 1050
-	if ([KWCommonMethods OSVersion] < 0x1040)
-		[KWToolbarKiller poseAsClass:NSClassFromString(@"_NSThemeWidget")];
-	#endif
-	
+
     toolbar = [[[NSToolbar alloc] initWithIdentifier:@"mainToolbar"] autorelease];
     [toolbar setDelegate:self];
     [toolbar setAllowsUserCustomization:NO];
@@ -352,10 +341,7 @@
 	[toolbar setDisplayMode:NSToolbarDisplayModeIconOnly];
     [mainWindow setToolbar:toolbar];
 	
-	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
-	if ([KWCommonMethods OSVersion] >= 0x1040)
-		[mainWindow setShowsToolbarButton:NO];
-	#endif
+    [mainWindow setShowsToolbarButton:NO];
 }
 
 - (NSToolbarItem *)toolbar:(NSToolbar *)toolbar itemForItemIdentifier:(NSString *)itemIdentifier willBeInsertedIntoToolbar:(BOOL)flag

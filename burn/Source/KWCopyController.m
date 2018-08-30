@@ -20,9 +20,7 @@
 	
 	awake = NO;
 	
-	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
 	cdTextBlocks = nil;
-	#endif
 
 	return self;
 }
@@ -39,13 +37,11 @@
 	[currentInformation release];
 	currentInformation = nil;
 	
-	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
 	if (cdTextBlocks)
 	{
 		[cdTextBlocks release];
 		cdTextBlocks = nil;
 	}
-	#endif
 
 	[super dealloc];
 }
@@ -155,13 +151,11 @@
 //Also we get the properties
 - (BOOL)checkImage:(NSString *)path
 {
-	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
 	if (cdTextBlocks)
 	{
 		[cdTextBlocks release];
 		cdTextBlocks = nil;
 	}
-	#endif
 
 	NSFileManager *defaultManager = [NSFileManager defaultManager];
 	NSWorkspace *sharedWorkspace = [NSWorkspace sharedWorkspace];
@@ -427,13 +421,11 @@
 
 - (IBAction)clearDisk:(id)sender
 {
-	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
 	if (cdTextBlocks)
 	{
 		[cdTextBlocks release];
 		cdTextBlocks = nil;
 	}
-	#endif
 
 	NSWorkspace *sharedWorkspace = [NSWorkspace sharedWorkspace];
 
@@ -484,9 +476,7 @@
 	NSString *currentPath = [currentInformation objectForKey:@"Path"];
 	NSString *pathExtension = [currentInformation objectForKey:@"Extension"];
 	NSString *mountedPath = [currentInformation objectForKey:@"Mounted Path"];
-	
-	BOOL isPanther = ([KWCommonMethods OSVersion] < 0x1040);
-	
+		
 	if ([pathExtension isEqualTo:@"isoinfo"])
 	{
 		NSDictionary *infoDict = [NSDictionary dictionaryWithContentsOfFile:currentPath];
@@ -496,11 +486,7 @@
 
 	if (!mountedPath)
 	{
-		if ([pathExtension isEqualTo:@"cue"] && isPanther)
-		{
-			return [[KWTrackProducer alloc] getTracksOfCueFile:currentPath];
-		}
-		else
+		if ([pathExtension isEqualTo:@"cue"])
 		{
 			NSString *workPath;
 			if ([pathExtension isEqualTo:@"dvd"]) 
@@ -511,12 +497,7 @@
 			else
 				workPath  = currentPath;
 			
-			if (isPanther)
-				return [[KWTrackProducer alloc] getTrackForImage:workPath withSize:0];
-			#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
-			else
-				return [DRBurn layoutForImageFile:workPath];
-			#endif
+            return [DRBurn layoutForImageFile:workPath];
 		}
 	}
 	else
@@ -638,17 +619,10 @@
 				return [[KWTrackProducer alloc] getTracksOfAudioCD:outputFile withToc:tocFile];
 			}
 		}
-		else if ([KWCommonMethods OSVersion] < 0x1040)
-		{
-			float blocks = [[currentInformation objectForKey:@"Blocks"] cgfloatValue];
-			return [[KWTrackProducer alloc] getTrackForImage:outputFile withSize:blocks];
-		}
-		#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
 		else
 		{
 			return [DRBurn layoutForImageFile:outputFile];
 		}
-		#endif
 	}
 	
 	return [NSNumber numberWithInteger:0];

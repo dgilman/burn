@@ -7,15 +7,8 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "KWDefines.h"
 
 @interface NSNumber (MyExtensions)
-#if MAC_OS_X_VERSION_MAX_ALLOWED < 1050
-+ (NSNumber *)numberWithInteger:(NSInteger)value;
-+ (NSNumber *)numberWithUnsignedInteger:(NSUInteger)value;
-- (NSInteger)integerValue;
-- (NSUInteger)unsignedIntegerValue;
-#endif
 + (NSNumber *)numberWithCGFloat:(CGFloat)value;
 - (CGFloat)cgfloatValue;
 @end

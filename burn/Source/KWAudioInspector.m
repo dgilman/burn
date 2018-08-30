@@ -4,7 +4,6 @@
 
 @implementation KWAudioInspector
 
-#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
 - (id)init
 {
 	if (self = [super init])
@@ -38,7 +37,6 @@
 	
 	[super dealloc];
 }
-#endif
 
 - (void)awakeFromNib
 {
@@ -61,7 +59,6 @@
 
 - (void)updateView:(id)object
 {
-	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
 	currentTableView = object;
 	KWAudioController *controller = [currentTableView delegate];
 	NSArray *tableData = [controller myDataSource];
@@ -128,12 +125,10 @@
 			property = nil;
 		}
 	}
-	#endif
 }
 
 - (id)getCDTextObjectForKey:(NSString *)key inCDTextObject:(id)object atIndexes:(NSArray *)indexes
 {
-	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
 	id baseValue;
 	
 	baseValue = [(DRCDTextBlock *)object objectForKey:key ofTrack:[[indexes objectAtIndex:0] integerValue] + 1];
@@ -156,14 +151,10 @@
 	}
 
 	return baseValue;
-	#else
-	return nil;
-	#endif
 }
 
 - (id)getTrackObjectForKey:(NSString *)key inTrackObjects:(NSArray *)objects
 {
-	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
 	DRTrack *firstSelectedTrack = [objects objectAtIndex:0];
 	NSDictionary *trackProperties = [firstSelectedTrack properties];
 	id baseValue = [trackProperties objectForKey:key];
@@ -190,14 +181,10 @@
 	}
 
 	return baseValue;
-	#else
-	return nil;
-	#endif
 }
 
 - (IBAction)optionsChanged:(id)sender
 {
-	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
 	NSInteger index = [sender tag] - 1;
 	NSString *currentKey = [tagMappings objectAtIndex:index];
 	KWAudioController *controller = [currentTableView delegate];
@@ -272,12 +259,10 @@
 			}
 		}
 	}
-	#endif
 }
 
 - (IBAction)ISRCChanged:(id)sender
 {
-	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
 	BOOL isValue = [self isValidISRC:[sender stringValue]];
 
 	if (isValue)
@@ -289,7 +274,6 @@
 	}
 
 	[invalid setHidden:isValue];
-	#endif
 }
 
 - (BOOL)isValidISRC:(NSString*)isrc

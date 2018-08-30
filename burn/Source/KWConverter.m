@@ -1,7 +1,4 @@
 #import "KWConverter.h"
-#if MAC_OS_X_VERSION_MAX_ALLOWED < 1050
-#import <QuickTime/QuickTime.h>
-#endif
 
 @implementation KWConverter
 
@@ -261,7 +258,7 @@
 		pipe2 = [[NSPipe alloc] init];
 		NSFileHandle *handle2;
 		[movtoy4m setLaunchPath:[[NSBundle mainBundle] pathForResource:@"movtoy4m" ofType:@""]];
-		[movtoy4m setArguments:[NSArray arrayWithObjects:@"-w",[NSString stringWithFormat:@"%ld", inputWidth],@"-h",[NSString stringWithFormat:@"%i", inputHeight],@"-F",[NSString stringWithFormat:@"%f:1", inputFps],@"-a",[NSString stringWithFormat:@"%i:%i", inputWidth, inputHeight],path, nil]];
+		[movtoy4m setArguments:[NSArray arrayWithObjects:@"-w",[NSString stringWithFormat:@"%ld", inputWidth],@"-h",[NSString stringWithFormat:@"%ld", inputHeight],@"-F",[NSString stringWithFormat:@"%f:1", inputFps],@"-a",[NSString stringWithFormat:@"%ld:%i", inputWidth, inputHeight],path, nil]];
 		[movtoy4m setStandardOutput:pipe2];
 		
 		if ([defaults boolForKey:@"KWDebug"] == NO)
@@ -440,15 +437,15 @@
 		if ([padOptions count] > 0 && [[padOptions objectAtIndex:0] isEqualTo:@"-padtop"])
 		{
 			//[args addObjectsFromArray:[NSArray arrayWithObjects:@"-padleft", widthBorder, @"-padright", widthBorder, nil]];
-			[args addObjectsFromArray:[NSArray arrayWithObjects:@"-vf", [NSString stringWithFormat:@"scale=%ld:%ld,pad=%i:%i:%i:0:black", (NSInteger)outputSize.width - (widthBorder * 2), (NSInteger)outputSize.height, (NSInteger)outputSize.width, (NSInteger)outputSize.height, widthBorder], nil]];
+			[args addObjectsFromArray:[NSArray arrayWithObjects:@"-vf", [NSString stringWithFormat:@"scale=%ld:%ld,pad=%ld:%i:%i:0:black", (NSInteger)outputSize.width - (widthBorder * 2), (NSInteger)outputSize.height, (NSInteger)outputSize.width, (NSInteger)outputSize.height, widthBorder], nil]];
 		}
 		else
 		{
 			//[args addObjectsFromArray:[NSArray arrayWithObjects:@"-padtop", heightBorder, @"-padbottom", heightBorder, nil]];
-			[args addObjectsFromArray:[NSArray arrayWithObjects:@"-vf", [NSString stringWithFormat:@"scale=%ld:%ld,pad=%i:%i:0:%i:black", (NSInteger)outputSize.width, (NSInteger)outputSize.height - (heightBorder * 2), (NSInteger)outputSize.width, (NSInteger)outputSize.height, heightBorder], nil]];
+			[args addObjectsFromArray:[NSArray arrayWithObjects:@"-vf", [NSString stringWithFormat:@"scale=%ld:%ld,pad=%ld:%i:0:%i:black", (NSInteger)outputSize.width, (NSInteger)outputSize.height - (heightBorder * 2), (NSInteger)outputSize.width, (NSInteger)outputSize.height, heightBorder], nil]];
 			
 			if ([padOptions count] == 0)
-				[args addObjectsFromArray:[NSArray arrayWithObjects:@"-vf", [NSString stringWithFormat:@"scale=%ld:%ld,pad=%i:%i:%i:0:black", (NSInteger)outputSize.width - (widthBorder * 2), (NSInteger)outputSize.height, (NSInteger)outputSize.width, (NSInteger)outputSize.height, widthBorder], nil]];
+				[args addObjectsFromArray:[NSArray arrayWithObjects:@"-vf", [NSString stringWithFormat:@"scale=%ld:%ld,pad=%ld:%i:%i:0:black", (NSInteger)outputSize.width - (widthBorder * 2), (NSInteger)outputSize.height, (NSInteger)outputSize.width, (NSInteger)outputSize.height, widthBorder], nil]];
 				//[args addObjectsFromArray:[NSArray arrayWithObjects:@"-padleft", widthBorder, @"-padright", widthBorder, nil]];
 				
 		}

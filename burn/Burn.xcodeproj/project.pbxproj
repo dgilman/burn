@@ -104,7 +104,6 @@
 		FEF8A86912D9D2BF00FE302C /* KWDVDAuthorizer.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF988C10D97AEA900BF78E3 /* KWDVDAuthorizer.m */; };
 		FEF8A86A12D9D2BF00FE302C /* KWProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF9892F0D97B1C500BF78E3 /* KWProgress.m */; };
 		FEF8A86B12D9D2BF00FE302C /* KWSVCDImager.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF9896B0D97B30800BF78E3 /* KWSVCDImager.m */; };
-		FEF8A86C12D9D2BF00FE302C /* KWPantherCompatibleButton.m in Sources */ = {isa = PBXBuildFile; fileRef = FE2C01500E0653CF0094FD7D /* KWPantherCompatibleButton.m */; };
 		FEF8A86D12D9D2BF00FE302C /* KWToolbarKiller.m in Sources */ = {isa = PBXBuildFile; fileRef = FEDC28FF0E4D91D200F2FEED /* KWToolbarKiller.m */; };
 		FEF8A86E12D9D2BF00FE302C /* KWDiscCreator.m in Sources */ = {isa = PBXBuildFile; fileRef = FE2491690ECEDB6F0028E955 /* KWDiscCreator.m */; };
 		FEF8A86F12D9D2BF00FE302C /* KWTrackProducer.m in Sources */ = {isa = PBXBuildFile; fileRef = FE23C04B0EDDCDCB0048B85D /* KWTrackProducer.m */; };
@@ -213,8 +212,6 @@
 		FE25B66511772BDA004F3B3D /* Italian */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Italian; path = Italian.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		FE25B66811772C08004F3B3D /* Italian */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Italian; path = "Italian.lproj/Copy document.icns"; sourceTree = "<group>"; };
 		FE25B66911772C08004F3B3D /* Italian */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Italian; path = "Italian.lproj/Theme document.icns"; sourceTree = "<group>"; };
-		FE2C01500E0653CF0094FD7D /* KWPantherCompatibleButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KWPantherCompatibleButton.m; path = Source/KWPantherCompatibleButton.m; sourceTree = "<group>"; };
-		FE2C01510E0653CF0094FD7D /* KWPantherCompatibleButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KWPantherCompatibleButton.h; path = Source/KWPantherCompatibleButton.h; sourceTree = "<group>"; };
 		FE2C34FB0BA2ED740029BA99 /* Burn.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Burn.icns; path = Images/Burn.icns; sourceTree = "<group>"; };
 		FE2FF26A12F2DA5E0010AD5D /* NSNumber_Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSNumber_Extensions.h; path = Source/NSNumber_Extensions.h; sourceTree = "<group>"; };
 		FE2FF26B12F2DA5E0010AD5D /* NSNumber_Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSNumber_Extensions.m; path = Source/NSNumber_Extensions.m; sourceTree = "<group>"; };
@@ -372,7 +369,6 @@
 		FEDC0F4612FAB33B00919EC2 /* NSControl_Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSControl_Extensions.m; path = Source/NSControl_Extensions.m; sourceTree = "<group>"; };
 		FEDC0F5712FAB49800919EC2 /* NSString_Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSString_Extensions.h; path = Source/NSString_Extensions.h; sourceTree = "<group>"; };
 		FEDC0F5812FAB49800919EC2 /* NSString_Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSString_Extensions.m; path = Source/NSString_Extensions.m; sourceTree = "<group>"; };
-		FEDC0FA912FAB8A100919EC2 /* KWDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KWDefines.h; path = Source/KWDefines.h; sourceTree = "<group>"; };
 		FEDC28FE0E4D91D200F2FEED /* KWToolbarKiller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KWToolbarKiller.h; path = Source/KWToolbarKiller.h; sourceTree = "<group>"; };
 		FEDC28FF0E4D91D200F2FEED /* KWToolbarKiller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KWToolbarKiller.m; path = Source/KWToolbarKiller.m; sourceTree = "<group>"; };
 		FEE0FF090F6D35BE009BC562 /* Greek */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Greek; path = Greek.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -1002,9 +998,6 @@
 				FE03612E0BAFD9A900F7FA73 /* KWGrowlController.m */,
 				FEEA698A0BDBADBE00471BE3 /* KWCommonMethods.h */,
 				FEEA698B0BDBADBE00471BE3 /* KWCommonMethods.m */,
-				FE2C01510E0653CF0094FD7D /* KWPantherCompatibleButton.h */,
-				FE2C01500E0653CF0094FD7D /* KWPantherCompatibleButton.m */,
-				FEDC0FA912FAB8A100919EC2 /* KWDefines.h */,
 				FE2FF26A12F2DA5E0010AD5D /* NSNumber_Extensions.h */,
 				FE2FF26B12F2DA5E0010AD5D /* NSNumber_Extensions.m */,
 				FEDC0F4512FAB33B00919EC2 /* NSControl_Extensions.h */,
@@ -1225,7 +1218,6 @@
 				FEF8A86912D9D2BF00FE302C /* KWDVDAuthorizer.m in Sources */,
 				FEF8A86A12D9D2BF00FE302C /* KWProgress.m in Sources */,
 				FEF8A86B12D9D2BF00FE302C /* KWSVCDImager.m in Sources */,
-				FEF8A86C12D9D2BF00FE302C /* KWPantherCompatibleButton.m in Sources */,
 				FEF8A86D12D9D2BF00FE302C /* KWToolbarKiller.m in Sources */,
 				FEF8A86E12D9D2BF00FE302C /* KWDiscCreator.m in Sources */,
 				FEF8A86F12D9D2BF00FE302C /* KWTrackProducer.m in Sources */,

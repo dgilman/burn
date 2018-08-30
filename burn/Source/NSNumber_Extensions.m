@@ -11,28 +11,6 @@
 
 @implementation NSNumber (MyExtensions)
 
-#if MAC_OS_X_VERSION_MAX_ALLOWED < 1050
-+ (NSNumber *)numberWithInteger:(NSInteger)value
-{
-	return [NSNumber numberWithInt:value];
-}
-
-+ (NSNumber *)numberWithUnsignedInteger:(NSUInteger)value
-{
-	return [NSNumber numberWithUnsignedInt:value];
-}
-
-- (NSInteger)integerValue
-{
-	return [self intValue];
-}
-
-- (NSUInteger)unsignedIntegerValue
-{
-	return [self unsignedIntValue];
-}
-#endif
-
 + (NSNumber *)numberWithCGFloat:(CGFloat)value
 {
 	#if __LP64__ || NS_BUILD_32_LIKE_64

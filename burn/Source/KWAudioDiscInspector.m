@@ -4,7 +4,6 @@
 
 @implementation KWAudioDiscInspector
 
-#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
 - (id)init
 {
 	if (self = [super init])
@@ -34,11 +33,9 @@
 	
 	[super dealloc];
 }
-#endif
 
 - (void)updateView:(id)object
 {
-	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
 	currentTableView = object;
 	KWAudioController *controller = [currentTableView delegate];
 	DRCDTextBlock *currentCDTextBlock;
@@ -85,12 +82,10 @@
 	{
 		[[myView viewWithTag:1] setStringValue:NSLocalizedString(@"Untitled", nil)];
 	}
-	#endif
 }
 
 - (IBAction)optionsChanged:(id)sender
 {
-	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
 	KWAudioController *controller = [currentTableView delegate];
 	DRCDTextBlock *currentCDTextBlock = [controller myTextBlock];
 	id property = [sender objectValue];
@@ -106,7 +101,6 @@
 	
 	if (object)
 		[currentCDTextBlock setObject:property forKey:currentKey ofTrack:0];
-	#endif
 }
 
 - (id)myView

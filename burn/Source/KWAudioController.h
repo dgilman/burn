@@ -40,9 +40,7 @@
 	NSDictionary *cueMappings;
 	
 	NSMutableArray *tracks;
-	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
 	DRCDTextBlock *cdtext;
-	#endif
 }
 
 //Main actions
@@ -79,10 +77,8 @@
 - (NSString *)cueStringWithBinFile:(NSString *)binFile;
 
 //External actions
-#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
 - (BOOL)hasCDText;
 - (DRCDTextBlock *)myTextBlock;
-#endif
 - (NSMutableArray *)myTracks;
 
 @end

@@ -71,12 +71,7 @@
 				[fsObj setProperty:yesNumber forKey:DRInvisible inFilesystem:DRHFSPlus];
 				[fsObj setProperty:yesNumber forKey:DRInvisible inFilesystem:DRISO9660];
 				[fsObj setProperty:yesNumber forKey:DRInvisible inFilesystem:DRJoliet];
-				#if MAC_OS_X_VERSION_MAX_ALLOWED >= 1050
 				[fsObj setProperty:yesNumber forKey:DRInvisible inFilesystem:DRUDF];
-				#else
-				if ([KWCommonMethods OSVersion] >= 0x1040)
-					[fsObj setProperty:yesNumber forKey:DRInvisible inFilesystem:@"DRUDF"];
-				#endif
 			}
 			
 			NSDictionary *atributes = [defaultManager fileAttributesAtPath:sourcePath traverseLink:YES];
@@ -86,12 +81,7 @@
 			[fsObj setProperty:permissionNumber forKey:DRPosixFileMode inFilesystem:DRHFSPlus];
 			[fsObj setProperty:permissionNumber forKey:DRPosixFileMode inFilesystem:DRISO9660];
 			[fsObj setProperty:permissionNumber forKey:DRPosixFileMode inFilesystem:DRJoliet];
-			#if MAC_OS_X_VERSION_MAX_ALLOWED >= 1050
 			[fsObj setProperty:permissionNumber forKey:DRPosixFileMode inFilesystem:DRUDF];
-			#else
-			if ([KWCommonMethods OSVersion] >= 0x1040)
-				[fsObj setProperty:permissionNumber forKey:DRPosixFileMode inFilesystem:@"DRUDF"];
-			#endif
 			
 			[fsObj setProperty:[NSNumber numberWithUnsignedShort:[KWCommonMethods getFinderFlagsAtPath:sourcePath]] forKey:DRMacFinderFlags inFilesystem:DRHFSPlus];
 		

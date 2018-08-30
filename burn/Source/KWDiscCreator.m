@@ -695,18 +695,12 @@
 	[newObject setSpecificName:[object specificNameForFilesystem:DRISO9660] forFilesystem:DRISO9660];
 	[newObject setSpecificName:[object specificNameForFilesystem:DRJoliet] forFilesystem:DRJoliet];
 	
-	#if MAC_OS_X_VERSION_MAX_ALLOWED < 1050
-	if ([KWCommonMethods OSVersion] >= 0x1040)
-	#endif
 	[newObject setSpecificName:[object specificNameForFilesystem:@"DRUDF"] forFilesystem:@"DRUDF"];
 		
 	[newObject setProperties:[object propertiesForFilesystem:DRHFSPlus mergeWithOtherFilesystems:NO] inFilesystem:DRHFSPlus];
 	[newObject setProperties:[object propertiesForFilesystem:DRISO9660 mergeWithOtherFilesystems:NO] inFilesystem:DRISO9660];
 	[newObject setProperties:[object propertiesForFilesystem:DRJoliet mergeWithOtherFilesystems:NO] inFilesystem:DRJoliet];
 	
-	#if MAC_OS_X_VERSION_MAX_ALLOWED < 1050
-	if ([KWCommonMethods OSVersion] >= 0x1040)
-	#endif
 	[newObject setProperties:[object propertiesForFilesystem:@"DRUDF" mergeWithOtherFilesystems:NO] inFilesystem:@"DRUDF"];	
 
 	return newObject;

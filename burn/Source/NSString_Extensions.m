@@ -11,13 +11,6 @@
 
 @implementation NSString (MyExtensions)
 
-#if MAC_OS_X_VERSION_MAX_ALLOWED < 1050
-- (NSInteger)integerValue
-{
-	return [self intValue];
-}
-#endif
-
 - (CGFloat)cgfloatValue
 {
 	#if __LP64__ || NS_BUILD_32_LIKE_64

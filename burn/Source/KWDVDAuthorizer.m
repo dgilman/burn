@@ -722,7 +722,7 @@
 	for (i = 0; i < numberOfMenus; i ++)
 	{
 		menuItem = menuItem + 1;
-		xmlContent = [NSString stringWithFormat:@"%@<pgc>\n<vob file=\"Title Selection %i.mpg\"></vob>\n", xmlContent, i + 1];
+		xmlContent = [NSString stringWithFormat:@"%@<pgc>\n<vob file=\"Title Selection %ld.mpg\"></vob>\n", xmlContent, i + 1];
 		
 		NSInteger o;
 		for (o = 0; o < number; o ++)
@@ -750,15 +750,15 @@
 					jumpKind = @"title";
 				}
 				
-				xmlContent = [NSString stringWithFormat:@"%@<button>jump %@ %i;</button>\n", xmlContent, jumpKind, jumpNumber];
+				xmlContent = [NSString stringWithFormat:@"%@<button>jump %@ %ld;</button>\n", xmlContent, jumpKind, jumpNumber];
 			}
 		}
 		
 		if (i > 0)
-			xmlContent = [NSString stringWithFormat:@"%@<button>jump menu %i;</button>\n", xmlContent, i];
+			xmlContent = [NSString stringWithFormat:@"%@<button>jump menu %ld;</button>\n", xmlContent, i];
 
 		if (i < numberOfMenus - 1)
-			xmlContent = [NSString stringWithFormat:@"%@<button>jump menu %i;</button>\n", xmlContent, i + 2];
+			xmlContent = [NSString stringWithFormat:@"%@<button>jump menu %ld;</button>\n", xmlContent, i + 2];
 
 		xmlContent = [NSString stringWithFormat:@"%@</pgc>\n", xmlContent];
 	}
@@ -792,7 +792,7 @@
 		{
 			menuItem = menuItem + 1;
 			
-			xmlContent = [NSString stringWithFormat:@"%@<pgc>\n<vob file=\"Chapter Selection %i.mpg\"></vob>\n", xmlContent, chapterSelection];
+			xmlContent = [NSString stringWithFormat:@"%@<pgc>\n<vob file=\"Chapter Selection %ld.mpg\"></vob>\n", xmlContent, chapterSelection];
 			
 			chapterSelection = chapterSelection + 1;
 		
@@ -806,17 +806,17 @@
 					addNumber = 2;
 			
 				if (numberOfChapters > y * number + o)
-					xmlContent = [NSString stringWithFormat:@"%@<button>jump title %i chapter %i;</button>\n", xmlContent, [[titlesWithChapters objectAtIndex:i] integerValue] + 1, y * number + o + addNumber];
+					xmlContent = [NSString stringWithFormat:@"%@<button>jump title %ld chapter %ld;</button>\n", xmlContent, [[titlesWithChapters objectAtIndex:i] integerValue] + 1, y * number + o + addNumber];
 			}
 		
 		if (y > 0)
 		{
-			xmlContent = [NSString stringWithFormat:@"%@<button>jump menu %i;</button>\n", xmlContent, menuItem - 1];
+			xmlContent = [NSString stringWithFormat:@"%@<button>jump menu %ld;</button>\n", xmlContent, menuItem - 1];
 		}
 		
 		if (y < numberOfMenus - 1)
 		{
-			xmlContent = [NSString stringWithFormat:@"%@<button>jump menu %i;</button>\n", xmlContent, menuItem + 1];
+			xmlContent = [NSString stringWithFormat:@"%@<button>jump menu %ld;</button>\n", xmlContent, menuItem + 1];
 		}
 		
 			xmlContent = [NSString stringWithFormat:@"%@</pgc>\n", xmlContent];
@@ -865,7 +865,7 @@
 			else
 				title = 1;
 				
-			xmlContent = [NSString stringWithFormat:@"%@<post>jump title %i;</post>", xmlContent, title];
+			xmlContent = [NSString stringWithFormat:@"%@<post>jump title %ld;</post>", xmlContent, title];
 		}
 		else
 		{

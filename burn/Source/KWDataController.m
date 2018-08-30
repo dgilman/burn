@@ -170,14 +170,6 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 
 	[outlineView setAllowsColumnReordering:NO];
 	
-	#if MAC_OS_X_VERSION_MAX_ALLOWED < 1050
-	if ([KWCommonMethods OSVersion] < 0x1040)
-	{
-		[fileSystemPopup removeItemAtIndex:3];
-		[[advancedCheckboxes cellAtRow:3 column:0] setTitle:NSLocalizedString(@"UDF / ISO9660 (only)", nil)];
-	}
-	#endif
-
 	[self reloadOutlineView];
 }
 
@@ -772,15 +764,10 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 					}
 					else
 					{
-						#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
 						if ([[[file stringByAppendingPathComponent:pathName] lastPathComponent] isEqualTo:@"Icon\r"])
 						{
-							#if MAC_OS_X_VERSION_MAX_ALLOWED < 1050
-							if ([KWCommonMethods OSVersion] >= 0x1040)
-							#endif
 							[[NSWorkspace sharedWorkspace] setIcon:[[NSWorkspace sharedWorkspace] iconForFile:[[file stringByAppendingPathComponent:pathName] stringByDeletingLastPathComponent]] forFile:[[path stringByAppendingPathComponent:[[file lastPathComponent] stringByAppendingPathComponent:pathName]] stringByDeletingLastPathComponent] options:1 << 2];
 						}
-						#endif
 					}
 				}
 			}
@@ -1206,13 +1193,8 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 {
 	KWDRFolder *rootFolder = (KWDRFolder*)[(FSNodeData*)[treeData nodeData] fsObject];
 	
-	#if MAC_OS_X_VERSION_MAX_ALLOWED < 1050
-	if (([rootFolder explicitFilesystemMask] == 1<<2 && [KWCommonMethods OSVersion] < 0x1040) | [rootFolder explicitFilesystemMask] == 1<<4 | [rootFolder explicitFilesystemMask] == 1<<5)
-		return NO;
-	#else
 	if ([rootFolder explicitFilesystemMask] == 1<<4 | [rootFolder explicitFilesystemMask] == 1<<5)
 		return NO;
-	#endif
 	
 	return YES;
 }
